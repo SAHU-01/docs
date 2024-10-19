@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html
   itemscope
   itemtype="http://schema.org/WebPage"
@@ -18,4 +18,25 @@
     </div>
     {{ partialCached "scripts.html" . }} 
   </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}" class="no-js">
+
+<head>
+  {{ partial "head.html" . }}
+</head>
+
+<body class="td-{{ .Kind }}">
+  <header>{{ partial "navbar.html" . }}</header>
+  <div class="container-fluid td-default td-outer">
+    <main role="main" class="td-main">
+      {{ block "main" . }}{{ end }}
+      {{ partial "dynamic-shortcode.html" . }}
+    </main>
+    {{ partial "footer.html" . }}
+  </div>
+  {{ partialCached "scripts.html" . }}
+</body>
+
 </html>

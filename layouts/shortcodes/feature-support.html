@@ -1,4 +1,4 @@
-{{ $feature_name := .Get "feature_name" }}
+<!-- {{ $feature_name := .Get "feature_name" }}
 {{ $pricingDataJson := getJSON "pricing_data.json" }}
 
 {{ if $pricingDataJson }}
@@ -19,4 +19,39 @@
 </div>
 {{ else }}
 <p>Error: Could not load pricing data</p>
+{{ end }} -->
+
+{{ $pricingDataJson := getJSON "data/pricing_data.json" }}
+{{ $currentURL := .Page.Permalink }}
+{{ $relevantEntries := where $pricingDataJson "documentation" $currentURL }}
+
+{{ if $relevantEntries }}
+{{ $tierFeatures := dict }}
+{{ range $entry := $relevantEntries }}
+{{ $tier := lower $entry.entire_row.SubscriptionTier }}
+{{ $feature := $entry.entire_row.Feature }}
+{{ $existing := index $tierFeatures $tier | default slice }}
+{{ $tierFeatures = merge $tierFeatures (dict $tier (append $existing $feature)) }}
+{{ end }}
+
+<div class="matterinfo">
+    <h4 class="matterheader">Who can use this feature</h4>
+
+    {{ range $tier, $features := $tierFeatures }}
+    {{ if eq $tier "free" }}
+    {{ $consolidatedFeature := delimit $features " " }}
+    <div class="plan-support all-plans {{ $tier }}-plan">
+        <img src="/images/subscription.svg" alt="Icon" class="support-icon adaptive-icon">
+        Supported on <span class="tier">{{ title $tier }}</span> Plan
+    </div>
+    {{ else }}
+    {{ range $features }}
+    <div class="plan-support all-plans {{ $tier }}-plan">
+        <img src="/images/subscription.svg" alt="Icon" class="support-icon adaptive-icon">
+        Supported on <span class="tier">{{ title $tier }}</span> Plan
+    </div>
+    {{ end }}
+    {{ end }}
+    {{ end }}
+</div>
 {{ end }}

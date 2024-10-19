@@ -16,11 +16,6 @@ ARG TARGETARCH
 WORKDIR /tmp/hugo
 RUN wget -O "hugo.tar.gz" "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-${TARGETARCH}.tar.gz"
 RUN tar -xf "hugo.tar.gz" hugo
-COPY go.mod go.sum ./
-COPY adapters.go ./
-RUN go mod tidy
-RUN go mod download
-RUN go build -o /bin/hugo ./...
 
 FROM base as build-base
 COPY --from=hugo /tmp/hugo/hugo /bin/hugo

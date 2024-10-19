@@ -1,0 +1,4 @@
+{{ if ne .Layout "home" }}
+{{ $shortcodeContent := printf "{{%% feature-support %%}}" }}
+{{ $shortcodeContent | safeHTML }}
+{{ end }}
