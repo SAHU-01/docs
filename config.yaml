@@ -13,3 +13,8 @@ module:
   hugoVersion:
     extended: true
     min: 0.110.0
+  mounts:
+    - source: content
+      target: content
+      adapters: 
+        - featureSupport

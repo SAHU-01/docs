@@ -324,5 +324,12 @@ enable = false
     path = "github.com/google/docsy"
     disable = false
   [[module.imports]]
-    path = "github.com/google/docsy/dependencies"
+  	path = "github.com/google/docsy/dependencies"
     disable = false
+	
+  [[module.mounts]]
+    source = "content"
+    target = "content"
+    [[module.mounts.adapters]]
+      featureSupport = true
+
